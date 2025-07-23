@@ -1,17 +1,21 @@
 # members/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse
 from .forms import MemberRegisterForm, MemberLoginForm
 from common.decorators import member_required
 
 
 def member_register(request):
-    # If already authenticated as member → go to dashboard
+    """
+    Handles member registration
+    - Logs out staff users if they try to register
+    - Redirects already logged-in members to dashboard
+    - Creates new member accounts with is_staff=False
+    """
+    # Handle already authenticated users
     if request.user.is_authenticated:
         if request.user.is_staff:
-            # If staff, log them out before allowing member registration
-            logout(request)
+            logout(request)  # Staff users must logout first
         else:
             return redirect('members:dashboard')
 
@@ -19,23 +23,28 @@ def member_register(request):
         form = MemberRegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_staff = False  # Ensure no staff flag
+            user.is_staff = False  # Ensure new users are not staff
             user.save()
             login(request, user)
             return redirect('members:dashboard')
     else:
         form = MemberRegisterForm()
+    
     return render(request, 'members/register.html', {'form': form})
 
 
 def member_login(request):
-    # If already logged in as NON-staff → redirect to dashboard
-    if request.user.is_authenticated and not request.user.is_staff:
-        return redirect('members:dashboard')
-
-    # If staff is logged in → force logout first
-    if request.user.is_authenticated and request.user.is_staff:
-        logout(request)
+    """
+    Handles member login
+    - Redirects already logged-in members
+    - Forces logout if staff user is logged in
+    - Validates credentials and checks user type
+    """
+    # Handle already authenticated users
+    if request.user.is_authenticated:
+        if not request.user.is_staff:
+            return redirect('members:dashboard')  # Members go to dashboard
+        logout(request)  # Staff users must logout first
 
     error = None
     if request.method == 'POST':
@@ -52,14 +61,19 @@ def member_login(request):
     else:
         form = MemberLoginForm()
 
-    return render(request, 'members/login.html', {'form': form, 'error': error})
+    return render(request, 'members/login.html', {
+        'form': form,
+        'error': error
+    })
 
 
 def member_logout(request):
+    """Handles member logout and redirects to login page"""
     logout(request)
     return redirect('members:login')
 
 
 @member_required
 def member_dashboard(request):
+    """Protected member dashboard view"""
     return render(request, 'members/dashboard.html')

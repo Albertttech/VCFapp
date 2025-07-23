@@ -3,21 +3,20 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from functools import wraps
 from django.shortcuts import redirect
-
+from django.conf import settings
 
 def member_required(view_func):
-    @login_required(login_url='/members/login/')
+    @login_required(login_url=settings.LOGIN_URL)
     def _wrapped_view(request, *args, **kwargs):
         if request.user.is_staff:
-            return HttpResponseForbidden("Staff users are not allowed in the member area.")
+            return redirect(settings.ADMIN_LOGIN_REDIRECT_URL)
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
-
 def admin_required(view_func):
-    @login_required(login_url='/admin/login/')
+    @login_required(login_url=settings.ADMIN_LOGIN_URL)
     def _wrapped_view(request, *args, **kwargs):
         if not request.user.is_staff:
-            return HttpResponseForbidden("Only staff members can access this area.")
+            return redirect(settings.LOGIN_REDIRECT_URL)
         return view_func(request, *args, **kwargs)
     return _wrapped_view
