@@ -1,0 +1,94 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}Create VCF File{% endblock %}
+
+{% block content %}
+<style>
+  .admin-form-container {
+    width: 100%;
+    margin-top: 2rem;
+    background: rgba(30,41,59,0.7);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37), 0 0 24px #2193b0a0;
+    padding: 2.5rem 2rem;
+    max-width: none;
+  }
+  .admin-form-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6dd5ed;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+  .admin-form label {
+    display: block;
+    font-weight: 600;
+    color: #e0e7ef;
+    margin-bottom: 0.5rem;
+    margin-top: 1.25rem;
+  }
+  .admin-form input, .admin-form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1.5px solid #334155;
+    background: #1e293b;
+    color: #f5f5f5;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px #2193b033;
+  }
+  .admin-form input:focus, .admin-form select:focus {
+    border-color: #6dd5ed;
+    outline: none;
+    box-shadow: 0 0 0 2px #6dd5ed55;
+  }
+  .admin-form button {
+    background: linear-gradient(90deg, #6dd5ed 0%, #e11d74 100%);
+    color: #fff;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    padding: 0.75rem 2rem;
+    border: none;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    box-shadow: 0 0 10px #2193b0a0;
+    transition: all 0.3s cubic-bezier(.4,2,.3,1);
+    cursor: pointer;
+  }
+  .admin-form button:hover {
+    background: linear-gradient(90deg, #e11d74 0%, #6dd5ed 100%);
+    box-shadow: 0 0 24px #6dd5edcc, 0 0 8px #e11d74cc;
+    transform: scale(1.04);
+  }
+  .admin-form .text-red-400 {
+    color: #e11d74;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+</style>
+<div class="admin-form-container">
+  <h2>Create New VCF File</h2>
+  <form method="post" class="admin-form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      <label for="id_name" class="block mb-1 text-sm font-medium">File Name</label>
+      {{ form.name }}
+      {% if form.name.errors %}
+        <div class="text-red-400 text-xs mt-1">{{ form.name.errors.0 }}</div>
+      {% endif %}
+    </div>
+    <div>
+      <label for="id_max_contacts" class="block mb-1 text-sm font-medium">Max Contacts</label>
+      {{ form.max_contacts }}
+      {% if form.max_contacts.errors %}
+        <div class="text-red-400 text-xs mt-1">{{ form.max_contacts.errors.0 }}</div>
+      {% endif %}
+    </div>
+    <button type="submit">Create VCF File</button>
+  </form>
+  </form>
+</div>
+{% endblock %}
