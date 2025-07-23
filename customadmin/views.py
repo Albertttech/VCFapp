@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
 from .forms import VCFFileForm
-from vcfviewer.models import VCFFile
+from .models import VCFFile
 from common.decorators import admin_required
 
 # Initialize logger

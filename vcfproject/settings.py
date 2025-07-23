@@ -99,7 +99,7 @@ LOGIN_URL = 'members:login'  # Default login URL
 ADMIN_LOGIN_URL = 'customadmin:login'  # Custom admin login URL
 LOGIN_REDIRECT_URL = 'members:dashboard'  # For members
 ADMIN_LOGIN_REDIRECT_URL = 'customadmin:dashboard'  # For admin
-
+AUTH_USER_MODEL = 'members.MemberAccount'
 # Logging configuration
 LOGGING = {
     'version': 1,
