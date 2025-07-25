@@ -13,7 +13,7 @@
   {% if form.errors %}
     <div class="mb-4 p-3 rounded bg-red-800/80 text-red-200 text-sm">Invalid credentials. Please try again.</div>
   {% endif %}
-  <form method="post" class="space-y-6">
+  <form method="post" class="space-y-6 action="{% url 'customadmin:login' %}">
     {% csrf_token %}
     <div>
       <label for="username" class="block mb-1 text-sm font-medium">Username</label>

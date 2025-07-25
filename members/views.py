@@ -23,10 +23,15 @@ def member_register(request):
         form = MemberRegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            # Set username as country code + mobile number
+            user.username = f"{form.cleaned_data['country_code']}{form.cleaned_data['mobile_number']}"
             user.is_staff = False  # Ensure new users are not staff
             user.save()
+            print(f"[REGISTER SUCCESS] Member created: {user.mobile_number}")
             login(request, user)
             return redirect('members:dashboard')
+        else:
+            print(f"[REGISTER FAIL] Errors: {form.errors}")
     else:
         form = MemberRegisterForm()
     

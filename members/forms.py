@@ -39,7 +39,17 @@ class MemberRegisterForm(UserCreationForm):
 
     class Meta:
         model = MemberAccount
-        fields = ('username', 'country_code', 'mobile_number')
+        fields = ('country_code', 'mobile_number', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'username' in self.fields:
+            self.fields['username'].required = False
+            self.fields['username'].widget = forms.HiddenInput()
+
+    def clean_username(self):
+        # Always return a dummy value, actual username is set in the view
+        return self.cleaned_data.get('username', '')
 
 class MemberLoginForm(AuthenticationForm):
     username = forms.CharField(

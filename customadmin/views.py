@@ -4,49 +4,47 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
 from .forms import VCFFileForm
 from .models import VCFFile
-from common.decorators import admin_required
+from functools import wraps
 
-# Initialize logger
 logger = logging.getLogger(__name__)
+
+# Session-based admin_required decorator (unchanged from your original)
+def admin_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.session.get('is_admin'):
+            return redirect('customadmin:login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 def login_view(request):
     """
-    Handle admin authentication and redirects
+    Handle admin authentication with hardcoded credentials (no database)
     """
-    # Log request details
-    logger.info(f"Admin login attempt - Path: {request.path}, Authenticated: {request.user.is_authenticated}")
-    
-    # Redirect if already logged in as staff
-    if request.user.is_authenticated:
-        if request.user.is_staff:
-            logger.info(f"Staff user {request.user.username} already authenticated, redirecting to dashboard")
-            return redirect('customadmin:dashboard')
-        else:
-            logger.info("Non-staff user logged in - forcing logout")
-            logout(request)
-            request.session.flush()
-            return redirect('customadmin:login')
+    # If already logged in, redirect to dashboard
+    if request.session.get('is_admin'):
+        return redirect('customadmin:dashboard')
 
     error = None
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        
-        if user is not None:
-            if user.is_staff:
-                login(request, user)
-                logger.info(f"Successful admin login for {username}")
-                return redirect('customadmin:dashboard')
-            else:
-                error = "Only staff members can access this area."
-                logger.warning(f"Non-staff login attempt: {username}")
+        ADMIN_CREDENTIALS = {
+            'admin': 'admin123',
+        }
+        if username in ADMIN_CREDENTIALS and password == ADMIN_CREDENTIALS[username]:
+            request.session['is_admin'] = True
+            request.session.save()  # Explicit save
+            return redirect('customadmin:dashboard')
         else:
             error = "Invalid login credentials."
-            logger.warning(f"Failed login attempt for username: {username}")
-
     return render(request, 'customadmin/admin_login.html', {'error': error})
 
+def logout_view(request):
+    """Handle admin logout (clears session)"""
+    request.session.flush()
+    return redirect('customadmin:login')
+    
 @admin_required
 def dashboard_view(request):
     """Admin dashboard view"""
@@ -89,12 +87,5 @@ def create_vcf_admin(request):
             form.save()
             logger.info("New VCF file created successfully")
             return redirect('customadmin:dashboard')
-    else:
-        form = VCFFileForm()
+    form = VCFFileForm()
     return render(request, 'customadmin/create_vcf.html', {'form': form})
-
-def logout_view(request):
-    """Handle admin logout"""
-    logger.info(f"Admin user {request.user.username} logging out")
-    logout(request)
-    return redirect('customadmin:login')
