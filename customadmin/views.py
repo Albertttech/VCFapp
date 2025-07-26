@@ -48,7 +48,14 @@ def logout_view(request):
 @admin_required
 def dashboard_view(request):
     """Admin dashboard view"""
-    return render(request, 'customadmin/dashboard.html')
+    # Import MemberAccount model
+    from members.models import MemberAccount
+    active_users = MemberAccount.objects.count()
+    total_vcf_files = VCFFile.objects.count()
+    return render(request, 'customadmin/dashboard.html', {
+        'active_users': active_users,
+        'total_vcf_files': total_vcf_files,
+    })
 
 @admin_required
 def all_vcf_admin(request):

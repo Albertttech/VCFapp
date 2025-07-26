@@ -18,7 +18,7 @@
         <i class="fa-solid fa-file-lines w-8 h-8 neon mr-2 text-blue-400"></i>
         <span class="text-lg font-semibold">Total VCF Files</span>
       </div>
-      <span class="text-3xl font-bold neon">128</span>
+      <span class="text-3xl font-bold neon">{{ total_vcf_files }}</span>
       <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 80%"></div></div>
     </div>
     <div class="glass p-6 flex flex-col items-start border-t-4 border-pink-600 fade-in delay-2">
@@ -26,7 +26,7 @@
         <i class="fa-solid fa-address-book w-8 h-8 neon-accent mr-2 text-pink-400"></i>
         <span class="text-lg font-semibold">Total Contacts</span>
       </div>
-      <span class="text-3xl font-bold neon-accent">2,345</span>
+      <span class="text-3xl font-bold neon-accent">{{ active_users }}</span>
       <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 60%; background:linear-gradient(90deg,#e11d74,#6dd5ed)"></div></div>
     </div>
     <div class="glass p-6 flex flex-col items-start border-t-4 border-green-500 fade-in delay-3">
@@ -34,8 +34,35 @@
         <i class="fa-solid fa-users w-8 h-8 text-green-400 mr-2"></i>
         <span class="text-lg font-semibold">Active Users</span>
       </div>
-      <span class="text-3xl font-bold text-green-400">17</span>
+      <span class="text-3xl font-bold text-green-400">2,345</span>
       <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 90%; background:linear-gradient(90deg,#6dd5ed,#22d3ee)"></div></div>
+    </div>
+    <!-- Subscription Packages Card -->
+    <div class="glass p-6 flex flex-col items-start border-t-4 border-yellow-500 fade-in delay-4">
+      <div class="flex items-center mb-2">
+        <i class="fa-solid fa-box-open w-8 h-8 text-yellow-400 mr-2"></i>
+        <span class="text-lg font-semibold">Subscription Packages</span>
+      </div>
+      <span class="text-3xl font-bold text-yellow-400 flex justify-center w-full">5</span>
+      <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 70%; background:linear-gradient(90deg,#facc15,#fde68a)"></div></div>
+    </div>
+    <!-- Total Subscribers Card -->
+    <div class="glass p-6 flex flex-col items-start border-t-4 border-purple-600 fade-in delay-5">
+      <div class="flex items-center mb-2">
+        <i class="fa-solid fa-user-check w-8 h-8 text-purple-400 mr-2"></i>
+        <span class="text-lg font-semibold">Total Subscribers</span>
+      </div>
+      <span class="text-3xl font-bold text-purple-400 flex justify-center w-full">1,200</span>
+      <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 65%; background:linear-gradient(90deg,#a78bfa,#f472b6)"></div></div>
+    </div>
+    <!-- Free Packages Card -->
+    <div class="glass p-6 flex flex-col items-start border-t-4 border-gray-400 fade-in delay-6">
+      <div class="flex items-center mb-2">
+        <i class="fa-solid fa-gift w-8 h-8 text-gray-400 mr-2"></i>
+        <span class="text-lg font-semibold">Free Packages</span>
+      </div>
+      <span class="text-3xl font-bold text-gray-400 flex justify-center w-full">3</span>
+      <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 50%; background:linear-gradient(90deg,#d1d5db,#f3f4f6)"></div></div>
     </div>
   </div>
 
