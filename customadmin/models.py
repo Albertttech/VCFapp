@@ -13,6 +13,7 @@ class VCFFile(models.Model):
     unlimited_contacts = models.BooleanField(default=False)
     subscription_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

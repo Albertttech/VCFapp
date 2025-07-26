@@ -4,8 +4,9 @@
 
 {% block content %}
   <!-- Quick Actions & Stats -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
     <button class="glass-btn flex items-center justify-center gap-2 fade-in delay-1"><svg class="w-5 h-5 neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>Add User</button>
+    <a href="{% url 'customadmin:embed_contact' %}" class="glass-btn flex items-center justify-center gap-2 fade-in delay-5"><svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Embed</a>
     <button class="glass-btn flex items-center justify-center gap-2 fade-in delay-2"><svg class="w-5 h-5 neon-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Export Data</button>
     <button class="glass-btn flex items-center justify-center gap-2 fade-in delay-3"><svg class="w-5 h-5 neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Verify</button>
     <button class="glass-btn flex items-center justify-center gap-2 fade-in delay-4"><svg class="w-5 h-5 neon-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18"/></svg>More</button>
@@ -43,7 +44,7 @@
         <i class="fa-solid fa-box-open w-8 h-8 text-yellow-400 mr-2"></i>
         <span class="text-lg font-semibold">Subscription Packages</span>
       </div>
-      <span class="text-3xl font-bold text-yellow-400 flex justify-center w-full">5</span>
+      <span class="text-3xl font-bold text-yellow-400 flex justify-right w-full">{{ total_subscription_vcf }}</span>
       <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 70%; background:linear-gradient(90deg,#facc15,#fde68a)"></div></div>
     </div>
     <!-- Total Subscribers Card -->
@@ -61,7 +62,7 @@
         <i class="fa-solid fa-gift w-8 h-8 text-gray-400 mr-2"></i>
         <span class="text-lg font-semibold">Free Packages</span>
       </div>
-      <span class="text-3xl font-bold text-gray-400 flex justify-center w-full">3</span>
+      <span class="text-3xl font-bold text-gray-400 flex justify-center w-full">{{ total_free_vcf }}</span>
       <div class="progress-bar mt-2"><div class="progress-bar-inner" style="width: 50%; background:linear-gradient(90deg,#d1d5db,#f3f4f6)"></div></div>
     </div>
   </div>
