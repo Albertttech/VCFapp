@@ -1,3 +1,20 @@
+from django.shortcuts import get_object_or_404
+# Subscription page for premium VCF
+def subscribe_vcf(request, vcf_id):
+    from customadmin.models import VCFFile
+    vcf = get_object_or_404(VCFFile, id=vcf_id, vcf_type='premium', hidden=False)
+    return render(request, 'members/subscribe_vcf.html', {'vcf': vcf})
+from django.shortcuts import render
+# ...existing code...
+
+def vcf_tabs(request):
+    from customadmin.models import VCFFile
+    free_vcfs = VCFFile.objects.filter(vcf_type='free', hidden=False)
+    premium_vcfs = VCFFile.objects.filter(vcf_type='premium', hidden=False)
+    return render(request, 'members/vcf_tabs.html', {
+        'free_vcfs': free_vcfs,
+        'premium_vcfs': premium_vcfs,
+    })
 # members/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout

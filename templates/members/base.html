@@ -76,13 +76,13 @@
       <span class="text-2xl font-bold tracking-wide neon">VCF Member</span>
     </div>
     <nav class="flex-1 py-6 px-2 space-y-2 scrollbar overflow-y-auto md:overflow-y-visible">
-      <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition group sidebar-link">
+      <a href="{% url 'members:dashboard' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition group sidebar-link">
         <svg class="w-6 h-6 mr-3 neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6"/></svg>
         Dashboard
       </a>
-      <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition group sidebar-link">
-        <svg class="w-6 h-6 mr-3 neon-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 3.13a4 4 0 010 7.75M8 3.13a4 4 0 000 7.75"/></svg>
-        Users
+      <a href="{% url 'members:vcf_tabs' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition group sidebar-link">
+        <svg class="w-6 h-6 mr-3 neon-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2a4 4 0 014-4h4a4 4 0 014 4v2M9 17H7a2 2 0 01-2-2v-2a2 2 0 012-2h2m0 0V7a4 4 0 014-4h0a4 4 0 014 4v2m-8 4h8"/></svg>
+        VCF Tabs
       </a>
       <div x-data="{ open: false }" class="relative">
         <button type="button" @click="open = !open" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition group sidebar-link w-full justify-between">
@@ -94,7 +94,7 @@
         </button>
         <div x-show="open" x-transition class="ml-8 mt-1 flex flex-col gap-1">
           <a href="#" class="sidebar-sublink"><i class="fa-solid fa-plus mr-1"></i> Create VCF</a>
-          <a href="#" class="sidebar-sublink"><i class="fa-solid fa-list mr-1"></i> All VCF</a>
+          <a href="{% url 'members:vcf_tabs' %}" class="sidebar-sublink"><i class="fa-solid fa-list mr-1"></i> All VCF</a>
           <a href="#" class="sidebar-sublink"><i class="fa-solid fa-vault mr-1"></i> VCF Vault</a>
         </div>
       </div>
