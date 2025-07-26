@@ -28,7 +28,7 @@
           {% for vcf in vcfs %}
             <li class="flex items-center justify-between bg-slate-800 rounded-lg px-4 py-3 shadow">
               <span class="font-semibold text-white">{{ vcf.name }}</span>
-              <input type="checkbox" name="vcf_ids" value="{{ vcf.id }}" class="accent-green-600 w-5 h-5 ml-2" />
+            <input type="checkbox" name="vcf_ids" value="{{ vcf.id }}" class="accent-green-600 w-5 h-5 ml-2" {% if vcf.max_contacts and vcf.contacts.count >= vcf.max_contacts %}disabled{% endif %} />
             </li>
           {% endfor %}
         </ul>
