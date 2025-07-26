@@ -89,10 +89,40 @@ def view_vcf_admin(request, vcf_id):
 def create_vcf_admin(request):
     """Handle VCF file creation"""
     if request.method == 'POST':
-        form = VCFFileForm(request.POST)
-        if form.is_valid():
-            form.save()
-            logger.info("New VCF file created successfully")
-            return redirect('customadmin:dashboard')
+        vcf_type = request.POST.get('vcf_type')
+        name = request.POST.get('name')
+        # For free tab
+        max_contacts = request.POST.get('max_contacts')
+        # For subscription tab
+        contact_limit_option = request.POST.get('contact_limit_option')
+        unlimited_contacts = (contact_limit_option == 'unlimited')
+        subscription_price = request.POST.get('subscription_price')
+
+        # Uniqueness check
+        if VCFFile.objects.filter(name=name).exists():
+            form = VCFFileForm()
+            return render(request, 'customadmin/create_vcf.html', {
+                'form': form,
+                'error': 'A VCF file with this name already exists.'
+            })
+
+        if vcf_type == 'free':
+            vcf = VCFFile.objects.create(
+                name=name,
+                vcf_type='free',
+                max_contacts=max_contacts or None,
+                unlimited_contacts=False,
+                subscription_price=None
+            )
+        elif vcf_type == 'premium':
+            vcf = VCFFile.objects.create(
+                name=name,
+                vcf_type='premium',
+                max_contacts=(None if unlimited_contacts else max_contacts or None),
+                unlimited_contacts=unlimited_contacts,
+                subscription_price=subscription_price or None
+            )
+        logger.info(f"New {vcf_type} VCF file created successfully: {name}")
+        return redirect('customadmin:dashboard')
     form = VCFFileForm()
     return render(request, 'customadmin/create_vcf.html', {'form': form})
